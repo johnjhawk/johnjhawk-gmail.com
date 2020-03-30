@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct name
 {
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
 {
     assert(argc >= 3);
     char* fp_input = argv[1];
-    int has_header = atoi(argv[2]);
+    bool has_header = atoi(argv[2]);
 
     FILE* fp = fopen(fp_input, "r");
     int number_of_rows = 0;
