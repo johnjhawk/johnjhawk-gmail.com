@@ -6,8 +6,6 @@
 #include <assert.h>
 #include <string.h>
 
-//$ prog="read_csv_to_struct";rm -f $prog ;CFLAGS="-Wall -g" make $prog; ./$prog test.csv 1
-
 typedef struct name
 {
 	char* first_name;
