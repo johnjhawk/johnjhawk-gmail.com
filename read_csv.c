@@ -26,8 +26,6 @@ int highest_salary(struct employee e[], int number_of_rows);
 void display_employees(employee e[], int number_of_rows);
 void get_file_attributes(FILE* fp, int* number_of_rows, int* max_char_per_row);
 
-
-
 int main(int argc, char* argv[])
 {
     assert(argc >= 3);
@@ -85,7 +83,9 @@ int main(int argc, char* argv[])
 
                 if (line_number == number_of_rows)
                 {
-                    number_of_rows *= 2;
+                    printf("nor: %d\n", number_of_rows);
+                    number_of_rows *= 1.5;
+                    printf("nor: %d\n", number_of_rows);
                     employees = realloc(employees, number_of_rows * sizeof(employee));
                     check(employees, "employees array not reallocated");
                 }
