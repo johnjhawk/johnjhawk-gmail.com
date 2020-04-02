@@ -26,6 +26,8 @@ int highest_salary(struct employee e[], int number_of_rows);
 void display_employees(employee e[], int number_of_rows);
 void get_file_attributes(FILE* fp, int* number_of_rows, int* max_char_per_row);
 
+
+
 int main(int argc, char* argv[])
 {
     assert(argc >= 3);
@@ -33,18 +35,9 @@ int main(int argc, char* argv[])
     bool has_header = atoi(argv[2]);
 
     FILE* fp = fopen(fp_input, "r");
-    int number_of_rows = 0;
-    int max_char_per_row = 0;
+    size_t number_of_rows = 2;
+    int max_char_per_row = 1000;
 
-    /* get file attributes will traverse the entire buffer simply to get row and
-     * row length. it would be better to use auto growing number_of_rows and
-     * max_char_per_row.
-    */
-    get_file_attributes(fp, &number_of_rows, &max_char_per_row);
-    debug("number of rows: %d", number_of_rows);
-    debug("chars per rows: %d", max_char_per_row);
-
-	employee employees[number_of_rows];
     char line[max_char_per_row];
     char element[max_char_per_row];
 
@@ -52,6 +45,11 @@ int main(int argc, char* argv[])
     int column_number = 0;
     int line_pos = 0;
     int line_number = 0;
+
+
+    employee* employees;
+    employees = calloc(number_of_rows, sizeof(employee));
+    check(employees, "employees array not allocated");
 
     rewind(fp);
 
@@ -85,7 +83,12 @@ int main(int argc, char* argv[])
                 element[line_pos - 1] = 0; // replace comma or new line with 0
                 line_pos = 0;
 
-
+                if (line_number == number_of_rows)
+                {
+                    number_of_rows *= 2;
+                    employees = realloc(employees, number_of_rows * sizeof(employee));
+                    check(employees, "employees array not reallocated");
+                }
                 switch (column_number)
                 {
                     case 0:;
@@ -142,6 +145,8 @@ int main(int argc, char* argv[])
         free(employees[f].job_title);
         free(employees[f].phone);
     }
+
+    free(employees);
     fclose(fp);
 
     return 0;
@@ -151,8 +156,8 @@ error:
         fclose(fp);
     return -1;
 
-}
 
+}
 
 void display_employees(employee e[], int number_of_rows)
 {
